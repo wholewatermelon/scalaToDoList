@@ -27,6 +27,18 @@ without these changes you get the error:
 
 “could not find implicit value for parameter messages: play.api.i18n.Messages”
 
+--------------------
+
+In the "Persist the tasks in a database" section of the tutorial:
+You need to enable Evolutions in your Play build.
+In build.sbt add evolutions to your librarydependencies
+libraryDependencies ++= Seq(
+  jdbc,
+  cache,
+  ws,
+  evolutions,
+  specs2 % Test
+)
 
 
 

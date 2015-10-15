@@ -6,6 +6,7 @@ import play.api.data._
 import play.api.data.Forms._
 import javax.inject.Inject // Inject and i18n are required to make this tutorial compliant with Play 2.4
 import play.api.i18n._
+import play.api.db._
   
 import models.Task
 
@@ -25,7 +26,16 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
     Ok(views.html.index(Task.all(), taskForm))
   }
   
-  def newTask = TODO
+  def newTask = Action { implicit request =>
+    taskForm.bindFromRequest.fold(
+      errors => BadRequest(views.html.index(Task.all(), errors)),
+      label => {
+        Task.create(label)
+        Redirect(routes.Application.tasks)
+      }
+    )
+
+  }
   
   def deleteTask(id: Long) = TODO
   
