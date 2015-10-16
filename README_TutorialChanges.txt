@@ -1,3 +1,5 @@
+For more information see playframework.com/documentation/2.4.x/Migration24 for the Play 2.4 Migration Guides
+
 In the ”Prepare the Task Model" to the ”Rendering the first page” portion of the tutorial, make the following changes:
 
 in Application.scala:
