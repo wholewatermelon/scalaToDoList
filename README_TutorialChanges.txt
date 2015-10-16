@@ -30,14 +30,15 @@ without these changes you get the error:
 --------------------
 
 In the "Persist the tasks in a database" section of the tutorial:
-You need to enable Evolutions in your Play build.
-In build.sbt add evolutions to your librarydependencies
+You need to enable Evolutions and Anorm in your Play build.
+
 libraryDependencies ++= Seq(
   jdbc,
   cache,
   ws,
   evolutions,
-  specs2 % Test
+  specs2 % Test,
+  "com.typesafe.play" %% "anorm" % "2.4.0"
 )
 
 
