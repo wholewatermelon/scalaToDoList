@@ -1,5 +1,7 @@
 For more information see playframework.com/documentation/2.4.x/Migration24 for the Play 2.4 Migration Guides
 
+--------------------
+
 In the ”Prepare the Task Model" to the ”Rendering the first page” portion of the tutorial, make the following changes:
 
 in Application.scala:
@@ -34,14 +36,12 @@ without these changes you get the error:
 In the "Persist the tasks in a database" section of the tutorial:
 You need to enable Evolutions and Anorm in your Play build.
 
-libraryDependencies ++= Seq(
-  jdbc,
-  cache,
-  ws,
-  evolutions,
-  specs2 % Test,
-  "com.typesafe.play" %% "anorm" % "2.4.0"
-)
+libraryDependencies += evolutions
+libraryDependencies += "com.typesafe.play" %% "anorm" % "2.4.0"
 
-
-
+--------------------
+In the "Deploying to Heroku" section
+Skip over this section and instead
+follow the instructions for "Deploying to Heroku" found at:
+playframework.com/documentation/2.4.x/ProductionHeroku
+including the "Connecting to a database" section
