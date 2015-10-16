@@ -37,6 +37,9 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
 
   }
   
-  def deleteTask(id: Long) = TODO
+  def deleteTask(id: Long) = Action {
+    Task.delete(id)
+    Redirect(routes.Application.tasks)
+  }
   
 }
