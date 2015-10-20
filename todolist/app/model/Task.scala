@@ -16,7 +16,6 @@ object Task {
     }
   }
 
-
   def all(): List[Task] = DB.withConnection { implicit c =>
     SQL("select * from task").as(task *)
   }
