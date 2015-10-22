@@ -23,14 +23,14 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
 
                         //implicit request required for I18n compliance
   def tasks = Action {  implicit request =>
-    Ok(views.html.index(Task.all(), taskForm))
+    Ok(views.html.index(Task.all("UserPlaceHolderName"), taskForm))
   }
   
   def newTask = Action { implicit request =>
     taskForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index(Task.all(), errors)),
+      errors => BadRequest(views.html.index(Task.all("UserPlaceHolderName"), errors)),
       label => {
-        Task.create(label)
+        Task.create("UserPlaceHolderName", label)
         Redirect(routes.Application.tasks)
       }
     )

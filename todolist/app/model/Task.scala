@@ -4,6 +4,7 @@ import anorm._
 import anorm.SqlParser._
 import play.api.db._
 import play.api.Play.current
+import scala.language.postfixOps
 
 case class Task(id: Long, label: String)
 
@@ -16,18 +17,17 @@ object Task {
     }
   }
 
-  def all(): List[Task] = DB.withConnection { implicit c =>
-    SQL("select * from task").as(task *)
+  def all(name: String): List[Task] = DB.withConnection { implicit c =>
+    SQL("select * from task where name = {name}").on('name -> name).as(task *)
   }
   
-  def create(label: String) {
+  def create(name: String, label: String) {
     DB.withConnection { implicit c =>
-      SQL("insert into task (label) values ({label})").on(
-          'label -> label
+      SQL("insert into task (label, name) values ({label}, {name})").on(
+          'label -> label, 'name -> name
       ).executeUpdate()
 
     }
-
   }
   
   def delete (id: Long) {
