@@ -14,37 +14,41 @@ import models.Task
 class Application @Inject()(val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
   val taskForm = Form (
-    "label" -> nonEmptyText
+    "Task:" -> nonEmptyText
     )
 
   val userForm = Form (
     "Name:" -> nonEmptyText
   )
 
+  var userName = ""
+
   //First step will be getting the login information from the user
   def index = Action {
     Ok(views.html.index(userForm))
   }
 
+  //Once we have the user's name, redirect them to the tasks page
   def setUser = Action { implicit request =>
    userForm.bindFromRequest.fold(
     errors => BadRequest(views.html.index(errors)),
     name => {
-     Ok(views.html.sayhello(name))
+      userName = name
+      Ok(views.html.tasks(Task.all(userName), taskForm, userName))
     }
    )
   }
 
                         //implicit request required for I18n compliance
   def tasks = Action {  implicit request =>
-    Ok(views.html.tasks(Task.all("UserPlaceHolderName"), taskForm))
+    Ok(views.html.tasks(Task.all(userName), taskForm, userName))
   }
 
   def newTask = Action { implicit request =>
     taskForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.tasks(Task.all("UserPlaceHolderName"), errors)),
+      errors => BadRequest(views.html.tasks(Task.all(userName), errors, userName)),
       label => {
-        Task.create("UserPlaceHolderName", label)
+        Task.create(userName, label)
         Redirect(routes.Application.tasks)
       }
     )

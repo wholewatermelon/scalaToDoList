@@ -3,9 +3,12 @@
 @import helper._
 
 @main("User Login") {
+
+    <h1>Log in to see your to do list:</h1>
+
     @form(routes.Application.setUser) {
     @inputText(userForm("Name:"))
 
-    <input type="submit" value="Create" />
+    <input type="submit" value="Login" />
     }
 }
