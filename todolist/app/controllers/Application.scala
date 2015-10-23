@@ -16,30 +16,42 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
   val taskForm = Form (
     "label" -> nonEmptyText
     )
-  
-  def index = Action { 
-    Redirect(routes.Application.tasks)
+
+  val userForm = Form (
+    "Name:" -> nonEmptyText
+  )
+
+  //First step will be getting the login information from the user
+  def index = Action {
+    Ok(views.html.index(userForm))
+  }
+
+  def setUser = Action { implicit request =>
+   userForm.bindFromRequest.fold(
+    errors => BadRequest(views.html.index(errors)),
+    name => {
+     Ok(views.html.sayhello(name))
+    }
+   )
   }
 
                         //implicit request required for I18n compliance
   def tasks = Action {  implicit request =>
-    Ok(views.html.index(Task.all("UserPlaceHolderName"), taskForm))
+    Ok(views.html.tasks(Task.all("UserPlaceHolderName"), taskForm))
   }
-  
+
   def newTask = Action { implicit request =>
     taskForm.bindFromRequest.fold(
-      errors => BadRequest(views.html.index(Task.all("UserPlaceHolderName"), errors)),
+      errors => BadRequest(views.html.tasks(Task.all("UserPlaceHolderName"), errors)),
       label => {
         Task.create("UserPlaceHolderName", label)
         Redirect(routes.Application.tasks)
       }
     )
-
   }
-  
+
   def deleteTask(id: Long) = Action {
     Task.delete(id)
     Redirect(routes.Application.tasks)
   }
-  
 }

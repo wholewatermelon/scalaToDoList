@@ -19,7 +19,7 @@ class IntegrationSpec extends Specification {
 
       browser.goTo("http://localhost:" + port)
 
-      browser.pageSource must contain("Add a new task")
+      browser.pageSource must contain("Name:")
     }
 
   }

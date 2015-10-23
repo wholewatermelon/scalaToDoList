@@ -25,7 +25,7 @@ import play.api.libs.json._
       val home = route(FakeRequest(GET, "/")).get
 
       //The application redirects automatically to /tasks.
-      status(home) must equalTo(SEE_OTHER)
+      status(home) must equalTo(OK)
     }
   }
 }
